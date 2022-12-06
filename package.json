@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@mui/lab": "^5.0.0-alpha.109",
+    "@mui/material": "^5.10.15",
+    "install": "^0.13.0",
+    "npm": "^9.1.2",
+    "react-youtube": "^10.1.0"
+  }
+}
