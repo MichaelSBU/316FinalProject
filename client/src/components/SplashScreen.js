@@ -24,6 +24,7 @@ export default function SplashScreen() {
             <Button sx={{color: "#8932CC", width: 200, height: 150, fontSize: 30, fontWeight: 'bold', border: 5, p:"8px", mt:"60px", ml:"100px", mr:"100px"}} variant="outlined" to='/register/'>Create Account</Button>
             </Link>
             <Button sx={{color: "#8932CC", width: 200, height: 150, fontSize: 30, fontWeight: 'bold', border: 5, p:"8px", mt:"60px"}} variant="outlined" onClick={handleGuestMode}>Continue as Guest</Button>
+            <Box sx={{ml:"1460px", mt: "160px"}}>Created by Michael Santomauro</Box>
         </div>
     )
 }

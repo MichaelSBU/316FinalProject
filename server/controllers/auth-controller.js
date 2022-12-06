@@ -18,6 +18,7 @@ getLoggedIn = async (req, res) => {
         return res.status(200).json({
             loggedIn: true,
             user: {
+                userName: loggedInUser.userName,
                 firstName: loggedInUser.firstName,
                 lastName: loggedInUser.lastName,
                 email: loggedInUser.email
@@ -66,6 +67,7 @@ loginUser = async (req, res) => {
         }).status(200).json({
             success: true,
             user: {
+                userName: existingUser.userName,
                 firstName: existingUser.firstName,
                 lastName: existingUser.lastName,  
                 email: existingUser.email              
@@ -89,8 +91,8 @@ logoutUser = async (req, res) => {
 
 registerUser = async (req, res) => {
     try {
-        const { firstName, lastName, email, password, passwordVerify } = req.body;
-        if (!firstName || !lastName || !email || !password || !passwordVerify) {
+        const { userName, firstName, lastName, email, password, passwordVerify } = req.body;
+        if (!userName || !firstName || !lastName || !email || !password || !passwordVerify) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
@@ -109,6 +111,15 @@ registerUser = async (req, res) => {
                     errorMessage: "Please enter the same password twice."
                 })
         }
+        const existingUsername = await User.findOne({ userName: userName });
+        if (existingUsername) {
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    errorMessage: "An account with this username already exists."
+                })
+        }
         const existingUser = await User.findOne({ email: email });
         if (existingUser) {
             return res
@@ -123,12 +134,11 @@ registerUser = async (req, res) => {
         const salt = await bcrypt.genSalt(saltRounds);
         const passwordHash = await bcrypt.hash(password, salt);
 
-        const newUser = new User({firstName, lastName, email, passwordHash});
+        const newUser = new User({userName, firstName, lastName, email, passwordHash});
         const savedUser = await newUser.save();
 
         // LOGIN THE USER
         const token = auth.signToken(savedUser._id);
-
         await res.cookie("token", token, {
             httpOnly: true,
             secure: true,
@@ -136,6 +146,7 @@ registerUser = async (req, res) => {
         }).status(200).json({
             success: true,
             user: {
+                userName: savedUser.userName,
                 firstName: savedUser.firstName,
                 lastName: savedUser.lastName,  
                 email: savedUser.email              

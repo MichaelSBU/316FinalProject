@@ -41,6 +41,7 @@ function SongCard(props) {
     function handleClick(event) {
         // DOUBLE CLICK IS FOR SONG EDITING
         if(event.detail===1){
+            event.stopPropagation();
 
         } if (event.detail === 2) {
             event.stopPropagation();

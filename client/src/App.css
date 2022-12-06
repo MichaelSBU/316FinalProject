@@ -54,6 +54,11 @@
   vertical-align: center;
 }
 
+#LOGO {
+  background-image: url("./logo.png");
+  background-size: contain;
+}
+
 #edit-toolbar {
   background-color: transparent;
 }

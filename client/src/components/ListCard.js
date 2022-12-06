@@ -281,6 +281,7 @@ function ListCard(props) {
         }
             {modalJSX}
             <Button
+            sx={{borderRadius:10, ml:"1%", width:"98%"}}
             disabled={!store.canAddNewSong()}
             id='add-song-button'
             onClick={handleAddNewSong}

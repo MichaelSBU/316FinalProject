@@ -102,14 +102,8 @@ export default function AppBanner() {
         <Box sx={{flexGrow: 1}}>
             <AppBar sx={{bgcolor: "#d9dbde"}} position="static">
                 <Toolbar>
-                    <Typography                        
-                        variant="h4"
-                        noWrap
-                        component="div"
-                        sx={{display: { xs: 'none', sm: 'block', color:'red'} }}                        
-                    >Playlister
-                    </Typography>
-                    <Box sx={{ flexGrow: 1 }}>{}</Box>
+                    <Box id="LOGO" sx={{transform:"translate(-10%,0%)", height:"61px", width:"170px"}}></Box>
+                    <Box sx={{ flexGrow: 1 }}></Box>
                     <Box sx={{color: "black", height: "5%", display: { xs: 'none', md: 'flex' } }}>
                         { getAccountMenu(auth.loggedIn) }
                     </Box>

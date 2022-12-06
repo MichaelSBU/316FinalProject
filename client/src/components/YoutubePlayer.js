@@ -15,7 +15,12 @@ export default function YouTubePlayer() {
     const [p, setP] = useState(null);
     const [song, setSong] = useState({title: "CHOOSE A PLAYLIST", artist: "CHOOSE A PLAYLIST"});
     const [currentSong, setCurrentSong] = useState(0);
+    const [currentPlaylist, setCurrentPlaylist] = useState(store.playingList);
 
+    if(currentPlaylist !== store.playingList){
+        setCurrentPlaylist(store.playingList);
+        setCurrentSong(0);
+    }
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR CURRENTLY PLAYING PLAYLIST
     let name = "SELECT A PLAYLIST TO PLAY IT!"
     let playlist = [];
@@ -44,14 +49,14 @@ export default function YouTubePlayer() {
         let song = playlist[currentSong];
         setSong({title: wholePlaylist.songs[currentSong].title, artist: wholePlaylist.songs[currentSong].artist});
         player.loadVideoById(song);
-        player.playVideo();
     }
 
     function onPlayerReady(event) {
         if(store.playingList !== null && store.playingList.songs.length > 0){
-        setP(event.target);
-        loadAndPlayCurrentSong(event.target);
-        event.target.playVideo();
+            
+            setP(event.target);
+            loadAndPlayCurrentSong(event.target);
+            event.target.playVideo();
         }
     }
 
@@ -79,7 +84,6 @@ export default function YouTubePlayer() {
             // THE VIDEO IS BUFFERING
             console.log("3 Video buffering");
         } else if (playerStatus === 5) {
-            // THE VIDEO HAS BEEN CUED
             console.log("5 Video cued");
         }
     }
@@ -133,6 +137,7 @@ export default function YouTubePlayer() {
         artist = "THE SELECTED PLAYLIST HAS NO SONGS";
     }
     //WRAP YOUTUBE IN <Box sx={{pointerEvents: "none"}}> put here </Box> IF IT NEEDS TO BE UNCLICKABLE
+    
     return <Box sx={sx}>
     <YouTube videoId={playlist[currentSong]} opts={playerOptions} onReady={onPlayerReady} onStateChange={onPlayerStateChange}></YouTube>
     <Box sx={{pb: 1.5, transform:"translate(0%, -3%)", height: "100%", borderRadius:"12px", border: 1,  bgcolor:"#cdccff"}}>

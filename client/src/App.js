@@ -10,6 +10,7 @@ import {
     RegisterScreen,
     Statusbar,
 } from './components'
+
 /*
     This is our application's top-level component.
     

@@ -419,8 +419,7 @@ function GlobalStoreContextProvider(props) {
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function () {
         let newListName = "Untitled 0";
-        const response = await api.createPlaylist(newListName, auth.user.email, auth.user.firstName + ' ' + auth.user.lastName, [], [], [], [], "no", 0);
-        console.log("createNewList response: " + response);
+        const response = await api.createPlaylist(newListName, auth.user.email, auth.user.userName, [], [], [], [], "no", 0);
         if (response.status === 201) {
             tps.clearAllTransactions();
             let newList = response.data.playlist;
@@ -639,7 +638,7 @@ function GlobalStoreContextProvider(props) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {
                 let playlist = response.data.playlist;
-                response = await api.createPlaylist("Copy of "+playlist.name, auth.user.email, auth.user.firstName + ' ' + auth.user.lastName, playlist.songs, [], [], [], "no", 0);
+                response = await api.createPlaylist("Copy of "+playlist.name, auth.user.email, auth.user.userName, playlist.songs, [], [], [], "no", 0);
                 console.log("createNewList response: " + response);
                 if (response.status === 201) {
                     history.push("/");

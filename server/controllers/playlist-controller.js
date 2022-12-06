@@ -21,12 +21,10 @@ createPlaylist = async (req, res) => {
             error: 'You must provide a Playlist',
         })
     }
-    
     let playlist = new Playlist(body);
     if (!playlist) {
         return res.status(400).json({ success: false, error: err })
     }
-
     User.findOne({ _id: req.userId }, async (err, user) => {
     if(playlist.name === "Untitled 0"){
         let flag = true;
@@ -59,7 +57,6 @@ createPlaylist = async (req, res) => {
 
         }
     }
-
         user.playlists.push(playlist._id);
         user
             .save()
@@ -111,7 +108,6 @@ deletePlaylist = async (req, res) => {
     })
 }
 getPlaylistById = async (req, res) => {
-    console.log("getting ");
 
     await Playlist.findById({ _id: req.params.id }, (err, list) => {
         if (err) {
@@ -121,8 +117,6 @@ getPlaylistById = async (req, res) => {
         async function asyncFindUser(list) {
             console.log(list.ownerEmail)
             await User.findOne({ email: list.ownerEmail }, (err, user) => {
-                console.log(user._id);
-                console.log(req.userId);
                 if (user._id == req.userId || list.published !== "no") {
                     return res.status(200).json({ success: true, playlist: list })
                 }
