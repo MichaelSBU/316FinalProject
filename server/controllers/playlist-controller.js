@@ -168,7 +168,7 @@ getPlaylistPairs = async (req, res) => {
                         .json({ success: false, error: 'Playlists not found' })
                 }
                 else {
-                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                    // PUT ALL THE LISTS INTO ID, NAME PAIRS.
                     let pairs = [];
                     for (let key in playlists) {
                         let list = playlists[key];
