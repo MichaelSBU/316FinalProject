@@ -42,7 +42,6 @@ function SongCard(props) {
         // DOUBLE CLICK IS FOR SONG EDITING
         if(event.detail===1){
             event.stopPropagation();
-
         } if (event.detail === 2) {
             event.stopPropagation();
             console.log("double clicked double clicked double clicked double clicked double clicked double clicked double clicked double clicked ");

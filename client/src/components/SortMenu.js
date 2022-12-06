@@ -44,12 +44,12 @@ export default function SortMenu() {
   }
 
   const handleLikesSort = () => {
-    store.sortListsBy(function(a, b){return b.playlist.likes-(a.playlist.likes)})
+    store.sortListsBy(function(a, b){return b.playlist.likes.length-(a.playlist.likes.length)})
     setAnchorEl(null);
   }
 
   const handleDislikesSort = () => {
-    store.sortListsBy(function(a, b){return b.playlist.dislikes-(a.playlist.dislikes)})
+    store.sortListsBy(function(a, b){return b.playlist.dislikes.length-(a.playlist.dislikes.length)})
     setAnchorEl(null);
   }
   

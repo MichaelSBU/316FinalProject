@@ -49,11 +49,11 @@ export default function YouTubePlayer() {
         let song = playlist[currentSong];
         setSong({title: wholePlaylist.songs[currentSong].title, artist: wholePlaylist.songs[currentSong].artist});
         player.loadVideoById(song);
+        player.playVideo();
     }
 
     function onPlayerReady(event) {
         if(store.playingList !== null && store.playingList.songs.length > 0){
-            
             setP(event.target);
             loadAndPlayCurrentSong(event.target);
             event.target.playVideo();
@@ -71,9 +71,13 @@ export default function YouTubePlayer() {
         if (playerStatus === -1) {
             // VIDEO UNSTARTED
             console.log("-1 Video unstarted");
+            if(currentSong >=1){
+                p.playVideo();
+            }
         } else if (playerStatus === 0) {
             // THE VIDEO HAS COMPLETED PLAYING
             handleNextSong();
+            p.playVideo();
         } else if (playerStatus === 1) {
             // THE VIDEO IS PLAYED
             console.log("1 Video played");
