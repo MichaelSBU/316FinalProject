@@ -39,7 +39,7 @@ export const createPlaylist = (newListName, userEmail, username, newSongs, likes
 }
 export const deletePlaylistById = (id) => api.delete(`/playlist/${id}`)
 export const getPlaylistById = (id) => api.get(`/playlist/${id}`)
-export const getPlaylistByName = (name) => api.get(`/playlist/?name=${name}`)
+export const getPlaylistByName = (id, name) => api.get(`/playlist/?name=${name}&id=${id}`)
 export const getPlaylistPairs = (search) => api.get(`/playlistpairs/?searchValue=${search}`)
 export const updatePlaylistById = (id, playlist) => {
     console.log("SENDING HTTP REQUEST TO UPDATE PLAYLIST !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");

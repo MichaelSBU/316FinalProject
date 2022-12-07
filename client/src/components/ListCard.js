@@ -73,8 +73,15 @@ function ListCard(props) {
     function handleKeyPress(event) {
         if (event.code === "Enter") {
             let id = event.target.id.substring("list-".length);
-            store.changeListName(id, text);
-            toggleEdit();
+            let a = event.target.value;
+            store.changeListName(id, text, event.target);
+            setTimeout( () => {
+                if(event.target.value === a){
+                    toggleEdit();
+                } else {
+                    event.target.value = a;
+                }
+        }, 270);
         }
     }
     function handleUpdateText(event) {

@@ -365,10 +365,10 @@ function GlobalStoreContextProvider(props) {
     // RESPONSE TO EVENTS INSIDE OUR COMPONENTS.
 
     // THIS FUNCTION PROCESSES CHANGING A LIST NAME
-    store.changeListName = function (id, newName) {
+    store.changeListName = function (id, newName, x) {
         // GET THE LIST
         async function asyncPlaylistExists(newName){
-            let response = await api.getPlaylistByName(newName);
+            let response = await api.getPlaylistByName(id, newName);
             if(response.data.success){
         async function asyncChangeListName(id) {
             let response = await api.getPlaylistById(id);
@@ -400,7 +400,7 @@ function GlobalStoreContextProvider(props) {
         }
         asyncChangeListName(id);
     } else{
-        console.log(response.data.message);
+        x.value = "Name Already Used!";
     }
     }
     asyncPlaylistExists(newName)

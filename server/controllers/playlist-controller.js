@@ -140,8 +140,9 @@ getPlaylistByName = async (req, res) => {
             return res.status(400).json({ success: false, error: err });
         }
         let email = user.email;
+        let id = req.query.id
         async function asyncFindListByName() {
-        await Playlist.findOne({ name: namee, ownerEmail: email }, (err, list) => {
+        await Playlist.findOne({ name: namee, ownerEmail: email, _id: {$ne: id} }, (err, list) => {
             if (err) {
                 return res.status(400).json({ success: false, error: err });
             }

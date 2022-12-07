@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 function SongCard(props) {
     const { store } = useContext(GlobalStoreContext);
@@ -63,15 +64,9 @@ function SongCard(props) {
             draggable="true"
             onClick={handleClick}
         >
-            {index + 1}.
-            <a
-                id={'song-' + index + '-link'}
-                className="song-link"
-                href={"https://www.youtube.com/watch?v=" + song.youTubeId}>
-                {song.title} by {song.artist}
-            </a>
+            <Typography sx={{fontWeight: 'bold', fontSize:"24px", color:"white"}}>{index + 1}. {song.title} by {song.artist}</Typography>
             <Button
-                sx={{transform:"translate(-5%, -5%)", width:"5px", height:"30px"}}
+                sx={{bgcolor: "red", fontSize:"25px", transform:"translate(-5%, -55%)", width:"10px", height:"40px"}}
                 variant="contained"
                 id={"remove-song-" + index}
                 className="list-card-button"
