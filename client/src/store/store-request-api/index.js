@@ -23,7 +23,6 @@ const api = axios.create({
 // WE NEED TO PUT THINGS INTO THE DATABASE OR IF WE HAVE SOME
 // CUSTOM FILTERS FOR QUERIES
 export const createPlaylist = (newListName, userEmail, username, newSongs, likes, dislikes, comments, publishedDate, listens) => {
-    console.log("here");
     return api.post(`/playlist/`, {
         // SPECIFY THE PAYLOAD
         name: newListName,
@@ -42,7 +41,6 @@ export const getPlaylistById = (id) => api.get(`/playlist/${id}`)
 export const getPlaylistByName = (id, name) => api.get(`/playlist/?name=${name}&id=${id}`)
 export const getPlaylistPairs = (search) => api.get(`/playlistpairs/?searchValue=${search}`)
 export const updatePlaylistById = (id, playlist) => {
-    console.log("SENDING HTTP REQUEST TO UPDATE PLAYLIST !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     return api.put(`/playlist/${id}`, {
         // SPECIFY THE PAYLOAD
         playlist : playlist

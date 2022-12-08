@@ -18,7 +18,6 @@ function Statusbar() {
 
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
-    console.log("logged in: " +  auth.loggedIn);
     let text ="";
     if (auth.loggedIn && store.currentList && null){
         text = store.currentList.name;

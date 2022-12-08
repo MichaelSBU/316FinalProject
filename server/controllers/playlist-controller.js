@@ -115,7 +115,6 @@ getPlaylistById = async (req, res) => {
         }
         // DOES THIS LIST BELONG TO THIS USER?
         async function asyncFindUser(list) {
-            console.log(list.ownerEmail)
             await User.findOne({ email: list.ownerEmail }, (err, user) => {
                 if (user._id == req.userId || list.published !== "no") {
                     return res.status(200).json({ success: true, playlist: list })

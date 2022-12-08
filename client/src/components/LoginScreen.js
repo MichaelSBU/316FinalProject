@@ -6,9 +6,7 @@ import Copyright from './Copyright'
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -18,7 +16,6 @@ import Typography from '@mui/material/Typography';
 import GlobalStoreContext from '../store'
 
 export default function LoginScreen() {
-    console.log("LOGIN SCREEN");
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
 
@@ -32,11 +29,9 @@ export default function LoginScreen() {
     };
 
     let modalJSX = "";
-    console.log(auth);
     if (auth.errorMessage !== null){
         modalJSX = <MUIErrorModal />;
     }
-    console.log(modalJSX);
 
     return (
         <Grid container component="main" sx={{ height: '100vh' }}>

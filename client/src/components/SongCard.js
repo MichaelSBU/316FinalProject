@@ -45,7 +45,6 @@ function SongCard(props) {
             event.stopPropagation();
         } if (event.detail === 2) {
             event.stopPropagation();
-            console.log("double clicked double clicked double clicked double clicked double clicked double clicked double clicked double clicked ");
             store.showEditSongModal(index, song);
         }
     }

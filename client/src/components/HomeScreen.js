@@ -31,9 +31,7 @@ const HomeScreen = () => {
     const [searchBar, setSearchBar] = useState({value: ""});
 
     useEffect(() => {
-        console.log(auth.user);
         if(auth.user !== "guest"){
-            console.log("GURGHRGHRUGRGURGRRUGHURG");
             store.myPlaylists("");
         }
     }, []);
@@ -51,7 +49,6 @@ const HomeScreen = () => {
         }
     }*/
     if (store) {
-        console.log("BFURIUGIUHHUGIRUHIRGIUHGRUIHGRUIHRHIUGR" + store);
         if(store.idNamePairs !== null && store.idNamePairs.length !== 0){
         listCard = 
             <List sx={{bgcolor:"#B8B8B8", width: '50%', overflow: "scroll"}}>
@@ -91,7 +88,6 @@ const HomeScreen = () => {
     function handleAddComment(event) {
         if(auth.user !== "guest"){
         if(store.playingList !== null && store.playingList.published !== "no"){
-            console.log(event.target.value);
             if(event.key === "Enter"){
                 store.addComment(event.target.value);
                 event.target.value="";
@@ -117,7 +113,6 @@ const HomeScreen = () => {
         if(auth.user !== "guest"){
         setSearchButtons(1);
         searchBar.value = "";
-        console.log("search         " + store.searchBy);
         store.myPlaylists("");
         }
     }
@@ -126,7 +121,6 @@ const HomeScreen = () => {
         event.stopPropagation();
         setSearchButtons(2);
         searchBar.value = "";
-        console.log("search         " + store.searchBy);
         if(store.searchBy === null || !store.searchBy){
             store.allPlaylists(true, "abcwir8374n02nf98234.5ng83rg;g';$%^&#(fksnhfismmznxi8310dk485hdnazl");
         }
@@ -136,7 +130,6 @@ const HomeScreen = () => {
         event.stopPropagation();
         setSearchButtons(3);
         searchBar.value = "";
-        console.log("search         " + store.searchBy);
         if(store.searchBy === null || store.searchBy){
             store.allPlaylists(false, "abcwir8374n02nf98234.5ng83rg;g';$%^&#(fksnhfismmznxi8310dk485hdnazl");
         }
@@ -145,7 +138,6 @@ const HomeScreen = () => {
     function handleSearch(event){
         setSearchBar(event.target);
         if(event.key === "Enter" && event.target.value.length > 0){
-            console.log(store.searchBy);
             if(store.searchBy !== null){
                 store.allPlaylists(store.searchBy, event.target.value);
             } else {

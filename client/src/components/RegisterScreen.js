@@ -20,7 +20,6 @@ export default function RegisterScreen() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        console.log(formData.get('userName'));
         auth.registerUser(
             formData.get('userName'),
             formData.get('firstName'),
@@ -32,11 +31,9 @@ export default function RegisterScreen() {
     };
 
     let modalJSX = ""
-    console.log(auth);
     if (auth.errorMessage !== null){
         modalJSX = <MUIErrorModal />;
     }
-    console.log(modalJSX);
 
     return (
             <Container component="main" maxWidth="xs">

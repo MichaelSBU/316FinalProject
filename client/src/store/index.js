@@ -18,11 +18,11 @@ import AuthContext from '../auth'
 
 // THIS IS THE CONTEXT WE'LL USE TO SHARE OUR STORE
 export const GlobalStoreContext = createContext({});
-console.log("create GlobalStoreContext");
 
 // THESE ARE ALL THE TYPES OF UPDATES TO OUR GLOBAL
 // DATA STORE STATE THAT CAN BE PROCESSED
 export const GlobalStoreActionType = {
+    RESET: "RESET",
     SET_UP_GUEST_MODE: "SET_UP_GUEST_MODE",
     CHANGE_LIST_NAME: "CHANGE_LIST_NAME",
     CLOSE_CURRENT_LIST: "CLOSE_CURRENT_LIST",
@@ -56,7 +56,6 @@ function GlobalStoreContextProvider(props) {
 
     // SINCE WE'VE WRAPPED THE STORE IN THE AUTH CONTEXT WE CAN ACCESS THE USER HERE
     const { auth } = useContext(AuthContext);
-    console.log("auth: " + auth);
 
     // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
     const [store, setStore] = useState({
@@ -74,16 +73,31 @@ function GlobalStoreContextProvider(props) {
         searchBy: null,
         searchValue: ""
     });
-    console.log(store);
     const history = useHistory();
 
-    console.log("inside useGlobalStore");
 
     // HERE'S THE DATA STORE'S REDUCER, IT MUST
     // HANDLE EVERY TYPE OF STATE CHANGE
     const storeReducer = (action) => {
         const { type, payload } = action;
         switch (type) {
+            // ENTER GUEST
+            case GlobalStoreActionType.RESET: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: null,
+                    currentList: null,
+                    playingList : null,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    listNameActive: null,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    sortBy: null,
+                    searchBy: null,
+                    searchValue: ""
+                });
+            }
             // ENTER GUEST
             case GlobalStoreActionType.SET_UP_GUEST_MODE: {
                 return setStore({
@@ -120,7 +134,6 @@ function GlobalStoreContextProvider(props) {
             }
             // LIST UPDATE OF ITS NAME
             case GlobalStoreActionType.CHANGE_LIST_NAME: {
-                console.log("SORT BY" + store.sortBy);
                 return setStore({
                     currentModal : CurrentModal.NONE,
                     idNamePairs: payload.idNamePairs,
@@ -172,7 +185,6 @@ function GlobalStoreContextProvider(props) {
             }
             // GET ALL THE LISTS SO WE CAN PRESENT THEM
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS: {
-                console.log("LOAD_ID_NAME_PAIRS setStore is being done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 return setStore({
                     currentModal : CurrentModal.NONE,
                     idNamePairs: payload.playlists,
@@ -224,7 +236,6 @@ function GlobalStoreContextProvider(props) {
             }
              // UPDATE PLAYING LIST
              case GlobalStoreActionType.SET_PLAYING_LIST: {
-                console.log("SET_PLAYING_LIST setStore is being done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 return setStore({
                     currentModal : CurrentModal.NONE,
                     idNamePairs: payload.playlists,
@@ -307,7 +318,6 @@ function GlobalStoreContextProvider(props) {
                 });
             }
             case GlobalStoreActionType.GO_TO_MY_PLAYLISTS: {
-                console.log("going to your playlists  going to your playlists  going to your playlists  going to your playlists")
                 return setStore({
                     currentModal : CurrentModal.NONE,
                     idNamePairs: payload.playlists,
@@ -431,7 +441,6 @@ function GlobalStoreContextProvider(props) {
             store.loadIdNamePairs();
         }
         else {
-            console.log("API FAILED TO CREATE A NEW LIST");
         }
     }
 
@@ -440,14 +449,11 @@ function GlobalStoreContextProvider(props) {
             type: GlobalStoreActionType.CHANGE_SORT_TYPE,
             payload: sortBy
         });
-        console.log(sortBy);
-        console.log(store);
         if(store.searchBy===null){
             store.loadIdNamePairs(sortBy);
         } else {
             store.allPlaylists(store.searchBy, store.searchValue, sortBy);
         }
-        console.log(store.sortBy)
     }
 
     store.myPlaylists = function (s) {
@@ -455,14 +461,12 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPlaylistPairs(s);
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                console.log(pairsArray);
                 storeReducer({
                     type: GlobalStoreActionType.GO_TO_MY_PLAYLISTS,
                     payload: {playlists: pairsArray, search: null, searchValue: s, sortBy: store.sortBy}
                 });
             }
             else {
-                console.log("API FAILED TO GET THE LIST PAIRS");
             }
         }
         asyncLoadIdNamePairs();
@@ -473,12 +477,9 @@ function GlobalStoreContextProvider(props) {
         if(sortBy === undefined){
             sortBy = store.sortBy
         }
-        console.log(flag + "    " + searchValue);
         async function asyncLoadIdNamePairs() {
             const response = await api.getPlaylists(flag, searchValue);
-            console.log("ffffffffff");
             if (response.data.success) {
-                console.log("ffffffffffffffffff");
                 let pairsArray = response.data.idNamePairs;
                 if(sortBy !== null){
                     pairsArray.sort(sortBy);
@@ -489,7 +490,6 @@ function GlobalStoreContextProvider(props) {
                 });
             }
             else {
-                console.log("API FAILED TO GET THE LIST PAIRS");
             }
         }
         asyncLoadIdNamePairs();
@@ -502,24 +502,25 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPlaylistPairs(store.searchValue);
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                console.log(pairsArray);
                 if(store.sortBy !== null){
                     pairsArray.sort(store.sortBy);
                 }
                 if(sortBy !== undefined && sortBy !== null){
                     pairsArray.sort(sortBy);
                 }
-                console.log(pairsArray);
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: {playlists: pairsArray, sortType: sortBy}
                 });
             }
             else {
-                console.log("API FAILED TO GET THE LIST PAIRS");
             }
         }
         asyncLoadIdNamePairs();
+    }
+
+    store.logoutUser = function () {
+        storeReducer({type:GlobalStoreActionType.RESET, payload:null});
     }
 
     store.setPlayingList = function (id) {
@@ -539,12 +540,10 @@ function GlobalStoreContextProvider(props) {
                                 if(store.sortBy !== null){
                                     pairsArray.sort(store.sortBy)
                                 }
-                                console.log("PAIRS ARRAY:  : : : :: : : : ::  :: : :: : : : ::  : : :: : : :: : : ::  " + pairsArray);
                                 storeReducer({
                                     type: GlobalStoreActionType.SET_PLAYING_LIST,
                                     payload: {playingList: playlist, playlists: pairsArray}
                                 });
-                                console.log(store.idNamePairs);
                             }
                         } else {
                             response = await api.getPlaylists(store.searchBy, store.searchValue);
@@ -553,12 +552,10 @@ function GlobalStoreContextProvider(props) {
                                 if(store.sortBy !== null){
                                     pairsArray.sort(store.sortBy)
                                 }
-                                console.log("PAIRS ARRAY:  : : : :: : : : ::  :: : :: : : : ::  : : :: : : :: : : ::  " + pairsArray);
                                 storeReducer({
                                     type: GlobalStoreActionType.SET_PLAYING_LIST,
                                     payload: {playingList: playlist, playlists: pairsArray}
                                 });
-                                console.log(store.idNamePairs);
                             }
                         }
                     }
@@ -639,7 +636,6 @@ function GlobalStoreContextProvider(props) {
             if (response.data.success) {
                 let playlist = response.data.playlist;
                 response = await api.createPlaylist("Copy of "+playlist.name, auth.user.email, auth.user.userName, playlist.songs, [], [], [], "no", 0);
-                console.log("createNewList response: " + response);
                 if (response.status === 201) {
                     history.push("/");
                     if(store.searchBy === null){
@@ -700,13 +696,9 @@ function GlobalStoreContextProvider(props) {
                 }
                 response = await api.updatePlaylistById(playlist._id, playlist);
                 if (response.data.success) {
-                    console.log("liked");
-                    console.log(store.searchBy);
                     if(store.searchBy === null){
-                        console.log("LIKED/DISLIKED OWN PLAYLIST");
                         store.loadIdNamePairs(store.sortBy);
                     } else {
-                        console.log("LIKING/DISLIKING A PLAYLIST ON SEARCHING PAGES")
                         store.allPlaylists(store.searchBy, store.searchValue);
                     }
                 }

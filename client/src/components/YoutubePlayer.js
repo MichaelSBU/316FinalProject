@@ -32,7 +32,6 @@ export default function YouTubePlayer() {
             playlist.push(store.playingList.songs[i].youTubeId);
         }
     }
-    console.log(playlist);
 
     const playerOptions = {
         height: '390',
@@ -70,7 +69,6 @@ export default function YouTubePlayer() {
         setP(event.target);
         if (playerStatus === -1) {
             // VIDEO UNSTARTED
-            console.log("-1 Video unstarted");
             if(currentSong >=1){
                 p.playVideo();
             }
@@ -80,15 +78,11 @@ export default function YouTubePlayer() {
             p.playVideo();
         } else if (playerStatus === 1) {
             // THE VIDEO IS PLAYED
-            console.log("1 Video played");
         } else if (playerStatus === 2) {
             // THE VIDEO IS PAUSED
-            console.log("2 Video paused");
         } else if (playerStatus === 3) {
             // THE VIDEO IS BUFFERING
-            console.log("3 Video buffering");
         } else if (playerStatus === 5) {
-            console.log("5 Video cued");
         }
     }
 }
@@ -103,13 +97,11 @@ export default function YouTubePlayer() {
     }
     const handlePauseSong = () => {
         if(store.playingList != null && store.playingList.songs.length > 0){
-        console.log("Paused Video")
         p.pauseVideo();
         }
     }
     const handlePlaySong = () => {
         if(store.playingList !== null && store.playingList.songs.length > 0){
-        console.log("Play Video")
         p.playVideo();
         }
     }

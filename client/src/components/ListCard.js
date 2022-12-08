@@ -37,21 +37,21 @@ function ListCard(props) {
     const email = auth.user.email;
 
     function handlelistClick(event) {
-        console.log("  dddddddd" + store.playingList);
         if(store.currentModal === "NONE"){
             if(event.detail === 1){
                 event.stopPropagation();
                 store.setPlayingList(idNamePair._id);
             } else if(event.detail === 2){
                 event.stopPropagation();
-                toggleEdit();
+                if(idNamePair.playlist.published === "no"){
+                    toggleEdit();
+                }
             }
         }
     }
 
     function handleAddNewSong(event) {
         event.stopPropagation();
-        console.log("ADDIDNGGG SOOONNNGGG")
         store.addNewSong();
     }
 
@@ -95,8 +95,6 @@ function ListCard(props) {
 
     async function handleLike(event, id) {
         event.stopPropagation();
-        console.log(email);
-        console.log(idNamePair.playlist.likes);
         if(!idNamePair.playlist.likes.includes(email) && !idNamePair.playlist.dislikes.includes(email)){
             store.like(id, true);
         }
@@ -216,7 +214,6 @@ function ListCard(props) {
     }
     if(store.playingList !== null){
         if(idNamePair.playlist.name === store.playingList.name && idNamePair.playlist.listens === store.playingList.listens){
-            console.log("PPLAYING PLAYLIST MAKE GOLD FIBRGRUGUIHGRBIUGIRUHIHUGRHIUGRIHUGR");
             coc = "#FFD117"
         }
     }

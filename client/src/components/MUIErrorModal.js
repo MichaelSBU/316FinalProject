@@ -26,7 +26,6 @@ export default function MUIErrorModal() {
 
     function handleCloseButton() {
         store.hideModals();
-        console.log("CLOSE BUTTON CLICKED");
     }
 
     return (
